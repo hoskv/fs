@@ -13,6 +13,7 @@ from geodb import model
 
 import random
 from datetime import datetime
+from time import sleep
 
 from geoalchemy import WKTSpatialElement
 from geojson import dumps
@@ -69,16 +70,17 @@ def geom_test(dbhost, dbuserpass ):
     print session.scalar(point.geom.gml)    
     print point.geom.coords(session)
     
-    
     #print point.geom
     #print session.scalar(point.geom.wkt)
     #print dumps(point)
     #print point.geom.wkt
     
     print "\nClosing..."
+    session.close()
     model.meta.close()
     
     print "\nDropping db '%s' ..." % name
+    sleep(2)
     model.meta.drop_db(name)
     
     #geodb.create_db()
