@@ -13,7 +13,6 @@ from geodb import model
 
 import random
 from datetime import datetime
-#model.init(address='postgresql://adamryan@localhost/fs')
 
 from geoalchemy import WKTSpatialElement
 from geojson import dumps
@@ -27,7 +26,7 @@ def geom_test(dbhost, dbuserpass ):
     model.meta.make_db(name)
     
     print "\nInitiating"
-    model.meta.connect("postgresql://adamryan@localhost/%s" % name)
+    model.meta.connect("postgresql://%s@%s/%s" % (dbuserpass,dbhost,name))
     
     print "\nCreating tables"
     model.meta.create_tables()
