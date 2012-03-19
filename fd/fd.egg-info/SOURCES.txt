@@ -1,6 +1,7 @@
 README
 setup.py
 fd/__init__.py
+fd/util.py
 fd.egg-info/PKG-INFO
 fd.egg-info/SOURCES.txt
 fd.egg-info/dependency_links.txt

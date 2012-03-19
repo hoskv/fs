@@ -38,13 +38,12 @@ def connect(address=None, engine=None, echo=False ):
 
 def close():
     """ Closes everything """
-    SessionFactory.close_all()
+    global SessionFactory
+    if SessionFactory is not None:
+        SessionFactory.close_all()
     metadata.bind.dispose()
     metadata.bind = None
-    #if SessionFactory is not None:
-    #    SessionFactory.close_all()
-    del SessionFactory
-    del metadata.bind    
+    SessionFactory = None
 
 def drop_tables():
     """ This will likely need to be refactored regularly """

@@ -1,15 +1,15 @@
 
-# geodb test
+# fd test
 
-#PREFIX="/private"
+"""
 
-#How to get prefix and the necessary parts of the
-#db adress from an ini file to use for this - have
-#????
+TODO: get '/private' from optparser to fd
+
+"""
 
 import sys
-import geodb
-from geodb import model
+import fd
+from fd import model
 
 import random
 from datetime import datetime
@@ -70,11 +70,6 @@ def geom_test(dbhost, dbuserpass ):
     print session.scalar(point.geom.gml)    
     print point.geom.coords(session)
     
-    #print point.geom
-    #print session.scalar(point.geom.wkt)
-    #print dumps(point)
-    #print point.geom.wkt
-    
     print "\nClosing..."
     session.close()
     model.meta.close()
@@ -83,14 +78,29 @@ def geom_test(dbhost, dbuserpass ):
     sleep(2)
     model.meta.drop_db(name)
     
-    #geodb.create_db()
-
 
 if __name__=="__main__":
+
+    import os
+    from optparse import OptionParser
+
+    parser = OptionParser( "%prog [options]" )    
+    parser.add_option('-H', '--host', action='store', default='localhost',
+                          help="""Database host name""")
+    parser.add_option('-u', '--user', action='store', default=os.getlogin(),
+                          help="""Database user name""")
+    parser.add_option('-p', '--password', action ='store', default="",
+                          help="""Database password""")
     
-     args = sys.argv
-     print args
-     if not len(args) == 3:
-     	print "Usage: geom_test.py dbhost dbuserpass"
-     else:
-     	geom_test(args[1], args[2])
+    opts, args = parser.parse_args()
+     
+    if opts.password != "":
+        up = "%s:%s" % (opts.user, opts.password)
+    else:
+        up = opts.user    
+
+    geom_test(opts.host, up)
+
+
+
+
